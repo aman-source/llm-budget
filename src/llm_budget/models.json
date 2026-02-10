@@ -1,0 +1,222 @@
+{
+  "gpt-4o": {
+    "provider": "openai",
+    "input_cost_per_token": 2.5e-06,
+    "output_cost_per_token": 1.0e-05,
+    "max_input_tokens": 128000,
+    "max_output_tokens": 16384,
+    "tokenizer": "o200k_base",
+    "capability_tier": "frontier",
+    "strengths": ["reasoning", "coding", "creative", "math", "analysis", "long_context"],
+    "quality_score": 95
+  },
+  "gpt-4o-mini": {
+    "provider": "openai",
+    "input_cost_per_token": 1.5e-07,
+    "output_cost_per_token": 6.0e-07,
+    "max_input_tokens": 128000,
+    "max_output_tokens": 16384,
+    "tokenizer": "o200k_base",
+    "capability_tier": "efficient",
+    "strengths": ["summarization", "extraction", "classification", "qa", "formatting", "translation"],
+    "quality_score": 72
+  },
+  "gpt-4-turbo": {
+    "provider": "openai",
+    "input_cost_per_token": 1.0e-05,
+    "output_cost_per_token": 3.0e-05,
+    "max_input_tokens": 128000,
+    "max_output_tokens": 4096,
+    "tokenizer": "cl100k_base",
+    "capability_tier": "frontier",
+    "strengths": ["reasoning", "coding", "creative", "analysis"],
+    "quality_score": 90
+  },
+  "gpt-3.5-turbo": {
+    "provider": "openai",
+    "input_cost_per_token": 5.0e-07,
+    "output_cost_per_token": 1.5e-06,
+    "max_input_tokens": 16385,
+    "max_output_tokens": 4096,
+    "tokenizer": "cl100k_base",
+    "capability_tier": "efficient",
+    "strengths": ["general", "qa", "formatting"],
+    "quality_score": 58
+  },
+  "o1": {
+    "provider": "openai",
+    "input_cost_per_token": 1.5e-05,
+    "output_cost_per_token": 6.0e-05,
+    "max_input_tokens": 200000,
+    "max_output_tokens": 100000,
+    "tokenizer": "o200k_base",
+    "capability_tier": "reasoning",
+    "strengths": ["math", "reasoning", "coding", "analysis", "science"],
+    "quality_score": 98
+  },
+  "o1-mini": {
+    "provider": "openai",
+    "input_cost_per_token": 1.1e-06,
+    "output_cost_per_token": 4.4e-06,
+    "max_input_tokens": 128000,
+    "max_output_tokens": 65536,
+    "tokenizer": "o200k_base",
+    "capability_tier": "reasoning",
+    "strengths": ["math", "reasoning", "coding", "science"],
+    "quality_score": 88
+  },
+  "o3-mini": {
+    "provider": "openai",
+    "input_cost_per_token": 1.1e-06,
+    "output_cost_per_token": 4.4e-06,
+    "max_input_tokens": 200000,
+    "max_output_tokens": 100000,
+    "tokenizer": "o200k_base",
+    "capability_tier": "reasoning",
+    "strengths": ["math", "reasoning", "coding", "science"],
+    "quality_score": 92
+  },
+  "claude-sonnet-4-20250514": {
+    "provider": "anthropic",
+    "input_cost_per_token": 3.0e-06,
+    "output_cost_per_token": 1.5e-05,
+    "max_input_tokens": 200000,
+    "max_output_tokens": 64000,
+    "tokenizer": "cl100k_base",
+    "capability_tier": "frontier",
+    "strengths": ["reasoning", "coding", "creative", "analysis", "instruction_following"],
+    "quality_score": 93
+  },
+  "claude-3-5-haiku-20241022": {
+    "provider": "anthropic",
+    "input_cost_per_token": 1.0e-06,
+    "output_cost_per_token": 5.0e-06,
+    "max_input_tokens": 200000,
+    "max_output_tokens": 64000,
+    "tokenizer": "cl100k_base",
+    "capability_tier": "efficient",
+    "strengths": ["summarization", "extraction", "classification", "qa", "formatting"],
+    "quality_score": 70
+  },
+  "claude-opus-4-20250514": {
+    "provider": "anthropic",
+    "input_cost_per_token": 1.5e-05,
+    "output_cost_per_token": 7.5e-05,
+    "max_input_tokens": 200000,
+    "max_output_tokens": 32000,
+    "tokenizer": "cl100k_base",
+    "capability_tier": "frontier",
+    "strengths": ["reasoning", "coding", "creative", "analysis", "long_context", "instruction_following"],
+    "quality_score": 96
+  },
+  "claude-3-5-sonnet-20241022": {
+    "provider": "anthropic",
+    "input_cost_per_token": 3.0e-06,
+    "output_cost_per_token": 1.5e-05,
+    "max_input_tokens": 200000,
+    "max_output_tokens": 8192,
+    "tokenizer": "cl100k_base",
+    "capability_tier": "frontier",
+    "strengths": ["reasoning", "coding", "creative", "analysis"],
+    "quality_score": 91
+  },
+  "deepseek-chat": {
+    "provider": "deepseek",
+    "input_cost_per_token": 2.8e-07,
+    "output_cost_per_token": 4.2e-07,
+    "max_input_tokens": 131072,
+    "max_output_tokens": 8192,
+    "tokenizer": "cl100k_base",
+    "capability_tier": "efficient",
+    "strengths": ["coding", "general", "extraction", "qa"],
+    "quality_score": 71
+  },
+  "deepseek-reasoner": {
+    "provider": "deepseek",
+    "input_cost_per_token": 2.8e-07,
+    "output_cost_per_token": 4.2e-07,
+    "max_input_tokens": 131072,
+    "max_output_tokens": 65536,
+    "tokenizer": "cl100k_base",
+    "capability_tier": "reasoning",
+    "strengths": ["math", "reasoning", "coding", "science"],
+    "quality_score": 90
+  },
+  "gemini-2.0-flash": {
+    "provider": "google",
+    "input_cost_per_token": 1.0e-07,
+    "output_cost_per_token": 4.0e-07,
+    "max_input_tokens": 1048576,
+    "max_output_tokens": 8192,
+    "tokenizer": "cl100k_base",
+    "capability_tier": "efficient",
+    "strengths": ["general", "summarization", "extraction", "multimodal", "fast"],
+    "quality_score": 73
+  },
+  "gemini-1.5-pro": {
+    "provider": "google",
+    "input_cost_per_token": 1.25e-06,
+    "output_cost_per_token": 5.0e-06,
+    "max_input_tokens": 2097152,
+    "max_output_tokens": 8192,
+    "tokenizer": "cl100k_base",
+    "capability_tier": "frontier",
+    "strengths": ["reasoning", "long_context", "multimodal", "analysis"],
+    "quality_score": 88
+  },
+  "gemini-1.5-flash": {
+    "provider": "google",
+    "input_cost_per_token": 7.5e-08,
+    "output_cost_per_token": 3.0e-07,
+    "max_input_tokens": 1000000,
+    "max_output_tokens": 8192,
+    "tokenizer": "cl100k_base",
+    "capability_tier": "efficient",
+    "strengths": ["general", "summarization", "fast", "multimodal"],
+    "quality_score": 68
+  },
+  "llama-3.1-70b": {
+    "provider": "meta",
+    "input_cost_per_token": 8.8e-07,
+    "output_cost_per_token": 8.8e-07,
+    "max_input_tokens": 131072,
+    "max_output_tokens": 4096,
+    "tokenizer": "cl100k_base",
+    "capability_tier": "mid",
+    "strengths": ["general", "coding", "reasoning"],
+    "quality_score": 75
+  },
+  "llama-3.1-8b": {
+    "provider": "meta",
+    "input_cost_per_token": 1.8e-07,
+    "output_cost_per_token": 1.8e-07,
+    "max_input_tokens": 131072,
+    "max_output_tokens": 4096,
+    "tokenizer": "cl100k_base",
+    "capability_tier": "efficient",
+    "strengths": ["general", "extraction", "formatting"],
+    "quality_score": 55
+  },
+  "mistral-large": {
+    "provider": "mistral",
+    "input_cost_per_token": 2.0e-06,
+    "output_cost_per_token": 6.0e-06,
+    "max_input_tokens": 131072,
+    "max_output_tokens": 4096,
+    "tokenizer": "cl100k_base",
+    "capability_tier": "mid",
+    "strengths": ["reasoning", "coding", "multilingual"],
+    "quality_score": 78
+  },
+  "mistral-small": {
+    "provider": "mistral",
+    "input_cost_per_token": 1.0e-07,
+    "output_cost_per_token": 3.0e-07,
+    "max_input_tokens": 131072,
+    "max_output_tokens": 4096,
+    "tokenizer": "cl100k_base",
+    "capability_tier": "efficient",
+    "strengths": ["general", "extraction", "formatting", "multilingual"],
+    "quality_score": 60
+  }
+}

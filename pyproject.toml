@@ -1,0 +1,63 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "llm-budget"
+version = "0.1.0"
+description = "Pre-flight LLM cost estimation and budget enforcement"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+authors = [
+    {name = "Aman Shaik", email = "amanabdul21@gmail.com"},
+]
+keywords = ["llm", "budget", "cost", "estimation", "openai", "anthropic", "tokens"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries",
+]
+dependencies = [
+    "tiktoken>=0.5.0",
+    "click>=8.0",
+]
+
+[project.optional-dependencies]
+openai = ["openai>=1.0"]
+anthropic = ["anthropic>=0.20"]
+rich = ["rich>=13.0"]
+mcp = ["mcp>=1.0"]
+langchain = ["langchain-core>=0.1.0"]
+crewai = ["crewai>=0.1.0"]
+all = ["openai>=1.0", "anthropic>=0.20", "rich>=13.0", "mcp>=1.0", "langchain-core>=0.1.0", "crewai>=0.1.0"]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "openai>=1.0",
+    "anthropic>=0.20",
+    "rich>=13.0",
+]
+
+[project.scripts]
+llm-budget = "llm_budget.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/aman-source/llm-budget"
+Repository = "https://github.com/aman-source/llm-budget"
+Issues = "https://github.com/aman-source/llm-budget/issues"
+Changelog = "https://github.com/aman-source/llm-budget/blob/main/CHANGELOG.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/llm_budget"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
