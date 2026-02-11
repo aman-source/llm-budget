@@ -175,6 +175,97 @@ class TestServeMcp:
         assert result.exit_code == 1
 
 
+class TestCheck:
+    def test_pass_under_budget(self, runner):
+        """Check passes when estimated cost is within budget."""
+        result = runner.invoke(
+            cli, ["check", "Hello", "-m", "gpt-4o", "--max-cost", "1.00"]
+        )
+        assert result.exit_code == 0
+        assert "PASS" in result.output
+
+    def test_fail_over_budget(self, runner):
+        """Check fails when estimated cost exceeds budget."""
+        result = runner.invoke(
+            cli, ["check", "Hello world", "-m", "gpt-4o", "--max-cost", "0.0000001"]
+        )
+        assert result.exit_code == 1
+        assert "FAIL" in result.output
+        assert "exceeds budget" in result.output
+
+    def test_json_output_pass(self, runner):
+        """JSON output includes all fields and passed=true."""
+        import json
+
+        result = runner.invoke(
+            cli, ["check", "Hi", "-m", "gpt-4o", "--max-cost", "1.00", "--json"]
+        )
+        assert result.exit_code == 0
+        payload = json.loads(result.output)
+        assert payload["passed"] is True
+        assert payload["model"] == "gpt-4o"
+        assert "estimated_cost" in payload
+        assert "max_cost" in payload
+
+    def test_json_output_fail(self, runner):
+        """JSON output includes passed=false when over budget."""
+        import json
+
+        result = runner.invoke(
+            cli, ["check", "Hi", "-m", "gpt-4o", "--max-cost", "0.0000001", "--json"]
+        )
+        assert result.exit_code == 1
+        payload = json.loads(result.output)
+        assert payload["passed"] is False
+
+    def test_with_output_tokens(self, runner):
+        """Explicit output tokens are used in estimation."""
+        result = runner.invoke(
+            cli,
+            ["check", "Hello", "-m", "gpt-4o", "--max-cost", "5.00", "-o", "1000"],
+        )
+        assert result.exit_code == 0
+        assert "PASS" in result.output
+
+    def test_stdin_input(self, runner):
+        """Prompt can be piped via stdin."""
+        result = runner.invoke(
+            cli,
+            ["check", "-m", "gpt-4o", "--max-cost", "1.00"],
+            input="Hello from stdin",
+        )
+        assert result.exit_code == 0
+        assert "PASS" in result.output
+
+    def test_no_prompt_no_stdin(self, runner):
+        """Error when no prompt is given and stdin is empty."""
+        result = runner.invoke(
+            cli,
+            ["check", "-m", "gpt-4o", "--max-cost", "1.00"],
+            input="",
+        )
+        assert result.exit_code == 1
+
+    def test_exact_boundary(self, runner):
+        """Cost exactly at max_cost should pass (<=)."""
+        import json
+
+        # First, get the actual estimated cost for this prompt
+        est_result = runner.invoke(
+            cli, ["check", "Hi", "-m", "gpt-4o", "--max-cost", "100", "--json"]
+        )
+        payload = json.loads(est_result.output)
+        exact_cost = payload["estimated_cost"]
+
+        # Now use that exact cost as the threshold
+        result = runner.invoke(
+            cli,
+            ["check", "Hi", "-m", "gpt-4o", "--max-cost", str(exact_cost), "--json"],
+        )
+        assert result.exit_code == 0
+        assert json.loads(result.output)["passed"] is True
+
+
 class TestModelsNoResults:
     def test_no_models_found(self, runner):
         """Test models command with provider that has no models."""

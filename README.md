@@ -4,7 +4,7 @@
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Tests](https://img.shields.io/badge/tests-261%20passed-brightgreen.svg)](#)
+[![Tests](https://img.shields.io/badge/tests-269%20passed-brightgreen.svg)](#)
 [![Coverage](https://img.shields.io/badge/coverage-91%25-brightgreen.svg)](#)
 
 > **One function. Auto-selects the cheapest model that fits your task. Tracks every dollar.**
@@ -502,6 +502,49 @@ $ llm-budget update-prices
 $ llm-budget history --last 20
 ```
 
+### CI Cost Gate (`check`)
+
+Block deployments that exceed a cost threshold. Exit code 1 = over budget, exit code 0 = within budget.
+
+```bash
+# Basic: fail if estimated cost exceeds $0.50
+$ llm-budget check "Summarize this document" -m gpt-4o --max-cost 0.50
+[PASS] gpt-4o: $0.000021 estimated vs $0.500000 max
+
+# Pipe prompt from file (stdin)
+$ cat prompts/summarize.txt | llm-budget check -m gpt-4o --max-cost 0.10
+
+# Machine-readable JSON output for CI parsing
+$ llm-budget check "Hello" -m gpt-4o --max-cost 0.50 --json
+{"model": "gpt-4o", "input_tokens": 2, "output_tokens": 2, "estimated_cost": 1.8e-05, "max_cost": 0.5, "passed": true}
+
+# With explicit output token estimate
+$ llm-budget check "Translate this book" -m gpt-4o --max-cost 1.00 -o 4000
+```
+
+**GitHub Actions example:**
+
+```yaml
+jobs:
+  cost-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install llm-budget
+      - name: Check prompt cost
+        run: llm-budget check -m gpt-4o --max-cost 1.00 --json < prompts/main.txt
+```
+
+**Options:**
+
+| Flag | Description |
+|------|-------------|
+| `PROMPT` | Prompt text (argument) or pipe via stdin |
+| `-m, --model` | Model to estimate against (required) |
+| `--max-cost` | Maximum allowed cost in USD (required) |
+| `-o, --output-tokens` | Expected output tokens (otherwise heuristic) |
+| `--json` | Output as JSON for machine parsing |
+
 ---
 
 ## Supported Models
@@ -627,7 +670,7 @@ pytest
 **Running tests:**
 
 ```bash
-pytest                          # All tests (260+)
+pytest                          # All tests (269)
 pytest --cov=llm_budget -q      # With coverage (target: 90%+)
 pytest tests/test_langchain_integration.py -v  # Specific module
 ```

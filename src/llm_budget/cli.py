@@ -109,6 +109,65 @@ def estimate_cmd(
 
 
 @cli.command()
+@click.argument("prompt", required=False, default=None)
+@click.option("--model", "-m", required=True, help="Model name.")
+@click.option("--max-cost", required=True, type=float, help="Maximum allowed cost in USD.")
+@click.option("--output-tokens", "-o", default=None, type=int, help="Expected output tokens.")
+@click.option("--json", "as_json", is_flag=True, help="Output result as JSON (machine-readable).")
+def check(
+    prompt: Optional[str],
+    model: str,
+    max_cost: float,
+    output_tokens: Optional[int],
+    as_json: bool,
+) -> None:
+    """Check if estimated cost is within budget. Exits 1 if exceeded.
+
+    Reads prompt from argument or stdin (pipe-friendly for CI).
+
+    \b
+    Examples:
+      llm-budget check "Summarize this" -m gpt-4o --max-cost 0.05
+      echo "Long prompt..." | llm-budget check -m gpt-4o --max-cost 0.10
+      llm-budget check -m gpt-4o --max-cost 1.00 --json < prompt.txt
+    """
+    if prompt is None:
+        prompt = click.get_text_stream("stdin").read()
+        if not prompt.strip():
+            click.echo("Error: No prompt provided via argument or stdin.", err=True)
+            raise SystemExit(1)
+
+    result = estimate_cost(prompt, model, output_tokens)
+    passed = result.estimated_cost <= max_cost
+
+    if as_json:
+        payload = {
+            "model": result.model,
+            "input_tokens": result.input_tokens,
+            "output_tokens": result.output_tokens,
+            "estimated_cost": round(result.estimated_cost, 8),
+            "max_cost": max_cost,
+            "passed": passed,
+        }
+        click.echo(json.dumps(payload))
+    else:
+        status_label = "PASS" if passed else "FAIL"
+        click.echo(
+            f"[{status_label}] {result.model}: "
+            f"${result.estimated_cost:.6f} estimated vs "
+            f"${max_cost:.6f} max"
+        )
+        if not passed:
+            click.echo(
+                f"  Cost exceeds budget by "
+                f"${result.estimated_cost - max_cost:.6f}"
+            )
+
+    if not passed:
+        raise SystemExit(1)
+
+
+@cli.command()
 @click.option("--last", "limit", default=20, help="Number of records to show.")
 @click.option("--model", default=None, help="Filter by model name.")
 def history(limit: int, model: Optional[str]) -> None:
